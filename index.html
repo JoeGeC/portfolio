@@ -43,17 +43,59 @@
             object-fit: cover;
             margin-bottom: 15px;
         }
+        .portfolio {
+            margin-top: 30px;
+        }
+        .portfolio-item {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .portfolio-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .portfolio-item h3 {
+            margin: 10px 0;
+        }
+        .portfolio-item a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .portfolio-item a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <img src="profile_picture.jpg" alt="Joe Barker" class="profile-pic">
-    <h1>Joe Barker</h1>
-    <p>Android & Flutter Developer | Digital Nomad</p>
-    <div class="links">
-        <a href="https://github.com/joegec" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/joe-barker-mobile-developer" target="_blank">LinkedIn</a>
+    <div class="container">
+        <img src="profile.jpg" alt="Joe Barker" class="profile-pic">
+        <h1>Joe Barker</h1>
+        <p>Android & Flutter Developer | Digital Nomad</p>
+        <div class="links">
+            <a href="https://github.com/joebarker" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/joebarker" target="_blank">LinkedIn</a>
+        </div>
+        
+        <div class="portfolio">
+            <h2>Portfolio</h2>
+            <div class="portfolio-item">
+                <img src="moviedb-android.png" alt="Project 1">
+                <h3>Native Android Movie Database</h3>
+                <p>Written in Jetpack Compose, using Retrofit, Room, Hilt, Stateflow, Coroutines, and MVVM.</p>
+                <p>Clean architecture, modularised by layer.</p>
+                <a href="https://github.com/joegec/MovieDB-Android" target="_blank">View on GitHub</a>
+            </div>
+            <div class="portfolio-item">
+                <img src="pokemondb-flutter.jpg" alt="Project 2">
+                <h3>Flutter Pokedex App</h3>
+                <p>Using Dio, SQLite, Bloc.</p>
+                <p>Clean architecture modularised by feature.</p>
+                <a href="https://github.com/joegec/PokemonDbFlutter" target="_blank">View on GitHub</a>
+            </div>
+        </div>
     </div>
-</div>
 </body>
 </html>
