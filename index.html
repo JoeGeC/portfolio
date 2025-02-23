@@ -5,40 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joe Barker - Portfolio</title>
     <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --text-color: #333;
+            --text-color-p: #666;
+            --card-bg: white;
+            --link-color: #007BFF;
+            --button-text-color: white;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --text-color-p: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --link-color: #4da3ff;
+            --button-text-color: #e0e0e0;
+            --shadow-color: rgba(255, 255, 255, 0.1);
+        }
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: var(--bg-color);
         }
         .container {
             max-width: 800px;
             margin: 50px auto;
-            background: white;
+            background: var(--card-bg);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         h1 {
-            color: #333;
+            color: var(--text-color);
             font-size: 36px;
             font-weight: bold;
             margin-bottom: 10px;
         }
+        h2 {
+            color: var(--text-color);
+        }
+        h3 {
+            color: var(--text-color);
+        }
         p {
-            color: #666;
+            color: var(--text-color-p);
             font-size: 18px;
+        }
+        .links-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
         .links {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 12px;
         }
         .links a {
             text-decoration: none;
-            color: #007BFF;
+            color: var(--link-color);
             font-size: 18px;
         }
         .links a:hover {
@@ -62,12 +93,12 @@
         .portfolio-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 10px;
         }
         .portfolio-item {
             display: flex;
             align-items: center;
-            background: #fff;
+            background: var(--bg-color);
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -88,23 +119,87 @@
         }
         .portfolio-item a {
             text-decoration: none;
-            color: #007BFF;
+            color: var(--link-color);
         }
         .portfolio-item a:hover {
             text-decoration: underline;
         }
         .cv-button {
             display: inline-block;
-            margin-top: 15px;
-            padding: 10px 15px;
+            padding: 15px;
             font-size: 18px;
-            color: white;
-            background-color: #007BFF;
+            color: var(--button-text-color);
+            background-color: var(--link-color);
             text-decoration: none;
             border-radius: 5px;
         }
         .cv-button:hover {
             background-color: #0056b3;
+        }
+        .divider {
+            width: 2px;
+            height: 20px;
+            background-color: var(--text-color-p);
+            display: block;
+        }
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .toggle-switch {
+            width: 40px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 10px;
+            position: relative;
+            transition: background 0.3s;
+        }
+        .toggle-switch::before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 1px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+        .portfolio-item-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .portfolio-item {
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .portfolio-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+        .portfolio-item-link:hover {
+            text-decoration: none;
+        }
+        .portfolio-item a {
+            text-decoration: none;
+        }
+        .portfolio-item a:hover {
+            text-decoration: none;
+        }
+
+        [data-theme="dark"] .toggle-switch {
+            background: #007BFF;
+        }
+        [data-theme="dark"] .toggle-switch::before {
+            transform: translateX(20px);
         }
         @media (max-width: 600px) {
             .portfolio-item {
@@ -118,50 +213,94 @@
             .portfolio-item-content {
                 text-align: center;
             }
+            .links-container {
+                flex-direction: column;
+                gap: 10px;
+            }
             .links {
                 flex-direction: column;
-                gap: 5px;
+                align-items: center;
+            }
+            .cv-button {
+                margin-top: 10px;
+            }
+            .divider {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
 <div class="container">
+    <div class="dark-mode-toggle">
+        <label class="toggle-label">
+            <span>🌙</span>
+            <div class="toggle-switch"></div>
+        </label>
+    </div>
     <img src="profile_picture.jpg" alt="Joe Barker" class="profile-pic">
     <h1>Joe Barker</h1>
     <p>Native Android & Flutter Developer</p>
-    <a href="Joe_Barker_CV.pdf" class="cv-button" target="_blank">Download CV</a>
-    <div class="links">
-        <a href="https://github.com/joegec" target="_blank">GitHub</a>
-        <span>|</span>
-        <a href="https://linkedin.com/in/joe-barker-mobile-developer" target="_blank">LinkedIn</a>
+    <div class="links-container">
+        <div class="links">
+            <a href="https://github.com/joegec" target="_blank">GitHub</a>
+            <span class="divider"></span>
+            <a href="https://linkedin.com/in/joe-barker-mobile-developer" target="_blank">LinkedIn</a>
+            <span class="divider"></span>
+            <a href="mailto:joe.joeb29@gmail.com" class="contact-link">Contact Me</a>
+        </div>
+        <span class="divider"></span>
+        <a href="Joe_Barker_CV.pdf" class="cv-button" target="_blank">Download CV</a>
     </div>
 
     <div class="portfolio">
         <h2>Portfolio</h2>
         <div class="portfolio-container">
-            <div class="portfolio-item">
-                <img src="moviedb-android.png" alt="Movie DB Android">
-                <div class="portfolio-item-content">
-                    <h3>Native Android Movie Database</h3>
-                    <p>Written in Jetpack Compose, using Retrofit, Room, Hilt, Stateflow, Coroutines, and MVVM.</p>
-                    <p>Extensive unit tests in JUnit and Mockito.</p>
-                    <p>Clean architecture, modularised by layer.</p>
-                    <a href="https://github.com/joegec/MovieDB-Android" target="_blank">View on GitHub (ReadMe!)</a>
+            <a href="https://github.com/joegec/MovieDB-Android" target="_blank" class="portfolio-item-link">
+                <div class="portfolio-item">
+                    <img src="moviedb-android.png" alt="Movie DB Android">
+                    <div class="portfolio-item-content">
+                        <h3>Native Android Movie Database</h3>
+                        <p>Written in Jetpack Compose, using Retrofit, Room, Hilt, Stateflow, Coroutines, and MVVM.</p>
+                        <p>Extensive unit tests in JUnit and Mockito.</p>
+                        <p>Clean architecture, modularised by layer.</p>
+                        <a href="https://github.com/joegec/MovieDB-Android" target="_blank">View on GitHub (Readme!)</a>
+                    </div>
                 </div>
-            </div>
-            <div class="portfolio-item">
-                <img src="pokemondb-flutter.png" alt="Pokedex Flutter">
-                <div class="portfolio-item-content">
-                    <h3>Flutter Pokedex App</h3>
-                    <p>Using Dio, SQLite, L10n, GetIt and MVVM.</p>
-                    <p>Extensive unit tests in JUnit and Mockito.</p>
-                    <p>Clean architecture modularised by feature.</p>
-                    <a href="https://github.com/joegec/PokemonDbFlutter" target="_blank">View on GitHub (ReadMe!)</a>
+            </a>
+            <a href="https://github.com/joegec/PokemonDbFlutter" target="_blank" class="portfolio-item-link">
+                <div class="portfolio-item">
+                    <img src="pokemondb-flutter.png" alt="Pokedex Flutter">
+                    <div class="portfolio-item-content">
+                        <h3>Cross-Platform Pokedex App Written With Flutter</h3>
+                        <p>Using Dio, SQLite, L10n, GetIt and MVVM.</p>
+                        <p>Extensive unit tests in JUnit and Mockito.</p>
+                        <p>Clean architecture modularised by feature.</p>
+                        <a href="https://github.com/joegec/PokemonDbFlutter" target="_blank">View on GitHub (Readme!)</a>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>
+<script>
+    const toggleSwitch = document.querySelector(".toggle-label");
+    function setTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }
+    function applyPreferredTheme() {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            setTheme("dark");
+        }
+    }
+    toggleSwitch.addEventListener("click", () => {
+        document.documentElement.getAttribute("data-theme") === "dark" ? setTheme("light") : setTheme("dark");
+    });
+    applyPreferredTheme();
+</script>
 </body>
 </html>
