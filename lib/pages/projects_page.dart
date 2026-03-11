@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/project.dart';
 
 class ProjectsPage extends StatelessWidget {
@@ -58,7 +58,12 @@ class _ProjectListItem extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.go('/projects/${project.repo}'),
+        onTap: () async {
+          final uri = Uri.parse(project.readmePageUrl);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: isWide
@@ -157,7 +162,7 @@ class _Info extends StatelessWidget {
             Icon(Icons.arrow_forward, size: 16, color: theme.colorScheme.primary),
             const SizedBox(width: 4),
             Text(
-              'View README',
+              'View on GitHub',
               style: TextStyle(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w500,

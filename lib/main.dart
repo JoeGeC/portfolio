@@ -5,7 +5,6 @@ import 'theme/app_theme.dart';
 import 'scaffold_with_nav.dart';
 import 'pages/home_page.dart';
 import 'pages/projects_page.dart';
-import 'pages/project_detail_page.dart';
 import 'pages/blog_page.dart';
 import 'pages/blog_post_page.dart';
 
@@ -74,16 +73,6 @@ class _PortfolioAppState extends State<PortfolioApp> {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: ProjectsPage(),
             ),
-            routes: [
-              GoRoute(
-                path: ':repo',
-                pageBuilder: (context, state) => NoTransitionPage(
-                  child: ProjectDetailPage(
-                    repo: state.pathParameters['repo']!,
-                  ),
-                ),
-              ),
-            ],
           ),
           GoRoute(
             path: '/blog',

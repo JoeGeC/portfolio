@@ -15,6 +15,8 @@ class Project {
 
   String get githubUrl => 'https://github.com/joegec/$repo';
 
+  String get readmePageUrl => 'https://github.com/joegec/$repo#readme';
+
   String get readmeUrl =>
       'https://raw.githubusercontent.com/joegec/$repo/main/README.md';
 

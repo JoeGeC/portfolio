@@ -3,6 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/project.dart';
 
+Future<void> _launchUrl(String url) async {
+  final uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -104,12 +111,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _launch(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
+  void _launch(String url) => _launchUrl(url);
 }
 
 class _LinkChip extends StatelessWidget {
@@ -146,7 +148,7 @@ class _ProjectCard extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.go('/projects/${project.repo}'),
+        onTap: () => _launchUrl(project.readmePageUrl),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: isWide
