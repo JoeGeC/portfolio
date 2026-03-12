@@ -18,10 +18,11 @@ class BlogPostPage extends StatefulWidget {
 }
 
 class _BlogPostPageState extends State<BlogPostPage> {
-  String? _markdown;
   BlogPost? _post;
+  String? _markdown;
   bool _loading = true;
-  String? _error;
+  bool _notFound = false;
+  Object? _exception;
 
   @override
   void initState() {
@@ -30,33 +31,30 @@ class _BlogPostPageState extends State<BlogPostPage> {
   }
 
   Future<void> _loadPost() async {
-    final l10n = context.l10n;
     try {
       final posts = await BlogLoader.loadIndex();
+      if (!mounted) return;
       final post = posts.where((p) => p.slug == widget.slug).firstOrNull;
       if (post == null) {
-        _setError(l10n.postNotFound);
+        setState(() { _notFound = true; _loading = false; });
         return;
       }
       final content = await BlogLoader.loadContent(post);
-      setState(() {
-        _post = post;
-        _markdown = content;
-        _loading = false;
-      });
+      if (!mounted) return;
+      setState(() { _post = post; _markdown = content; _loading = false; });
     } catch (e) {
-      _setError(l10n.failedToLoadPost(e.toString()));
+      if (!mounted) return;
+      setState(() { _exception = e; _loading = false; });
     }
   }
-
-  void _setError(String message) =>
-      setState(() { _error = message; _loading = false; });
 
   @override
   Widget build(BuildContext context) {
     if (_loading) return const Center(child: CircularProgressIndicator());
-    if (_error != null) return PostErrorView(message: _error!);
-
+    if (_notFound) return PostErrorView(message: context.l10n.postNotFound);
+    if (_exception != null) {
+      return PostErrorView(message: context.l10n.failedToLoadPost(_exception.toString()));
+    }
     return _PostContent(post: _post!, markdown: _markdown!);
   }
 }
