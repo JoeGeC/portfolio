@@ -184,6 +184,29 @@ class UserRepository {
 
 ---
 
+### 7. Prefer `=>` Over `return`
+Use arrow syntax (`=>`) instead of a block body with `return` for any function or method whose body is a single expression. This applies to methods, getters, and top-level functions.
+
+**Bad:**
+```dart
+String get fullName {
+  return '$firstName $lastName';
+}
+
+Widget build(BuildContext context) {
+  return Text(context.l10n.title);
+}
+```
+
+**Good:**
+```dart
+String get fullName => '$firstName $lastName';
+
+Widget build(BuildContext context) => Text(context.l10n.title);
+```
+
+---
+
 ## Summary Checklist
 
 Before considering any task complete, verify:
@@ -195,3 +218,4 @@ Before considering any task complete, verify:
 - [ ] All methods are concise (aim for ≤5 lines)
 - [ ] Widgets are decomposed into small, reusable components
 - [ ] SOLID principles have been applied
+- [ ] Single-expression functions/getters use `=>` instead of `return`
