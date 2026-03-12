@@ -1,3 +1,5 @@
+import '../app_constants.dart';
+
 class BlogPost {
   final String title;
   final String slug;
@@ -11,7 +13,10 @@ class BlogPost {
     required this.excerpt,
   });
 
-  String get assetPath => 'assets/blog/$slug.md';
+  String get assetPath => '${AppAssets.blogAssetPrefix}$slug.md';
+
+  String get formattedDate =>
+      '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 
   factory BlogPost.fromJson(Map<String, dynamic> json) {
     return BlogPost(

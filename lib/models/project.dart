@@ -1,3 +1,5 @@
+import '../app_constants.dart';
+
 class Project {
   final String title;
   final String description;
@@ -13,12 +15,12 @@ class Project {
     required this.technologies,
   });
 
-  String get githubUrl => 'https://github.com/joegec/$repo';
+  String get githubUrl => '${AppUrls.githubRepoBase}$repo';
 
-  String get readmePageUrl => 'https://github.com/joegec/$repo#readme';
+  String get readmePageUrl => '${AppUrls.githubRepoBase}$repo${AppUrls.githubReadmeSuffix}';
 
   String get readmeUrl =>
-      'https://raw.githubusercontent.com/joegec/$repo/main/README.md';
+      '${AppUrls.rawGithubRepoBase}$repo${AppUrls.rawGithubMainReadmeSuffix}';
 
   static const List<Project> all = [
     Project(
@@ -28,7 +30,7 @@ class Project {
           'Extensive unit tests in JUnit and Mockito. '
           'Clean architecture, modularised by layer.',
       repo: 'MovieDB-Android',
-      imageAsset: 'assets/images/moviedb-android.png',
+      imageAsset: AppAssets.movieDbAndroid,
       technologies: [
         'Kotlin',
         'Jetpack Compose',
@@ -47,7 +49,7 @@ class Project {
           'Extensive unit testing. '
           'Clean architecture modularised by feature.',
       repo: 'PokemonDbFlutter',
-      imageAsset: 'assets/images/pokemondb-flutter.png',
+      imageAsset: AppAssets.pokemonDbFlutter,
       technologies: [
         'Flutter',
         'Dart',

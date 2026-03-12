@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import '../app_constants.dart';
 import '../blog/blog_loader.dart';
 import '../blog/blog_post.dart';
+import '../l10n/l10n.dart';
+import '../widgets/blog_post_card.dart';
 
 class BlogPage extends StatefulWidget {
   const BlogPage({super.key});
@@ -11,82 +13,25 @@ class BlogPage extends StatefulWidget {
 }
 
 class _BlogPageState extends State<BlogPage> {
-  late Future<List<BlogPost>> _postsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _postsFuture = BlogLoader.loadIndex();
-  }
+  late final Future<List<BlogPost>> _postsFuture = BlogLoader.loadIndex();
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppLayout.pagePaddingH,
+        vertical: AppLayout.pagePaddingV,
+      ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
+          constraints:
+              const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Blog',
-                style: theme.textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Thoughts on mobile development, architecture, and engineering.',
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
-              ),
+              _PageHeader(),
               const SizedBox(height: 24),
-              FutureBuilder<List<BlogPost>>(
-                future: _postsFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error loading posts: ${snapshot.error}'),
-                    );
-                  }
-                  final posts = snapshot.data!;
-                  if (posts.isEmpty) {
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(48),
-                        child: Column(
-                          children: [
-                            Icon(Icons.article_outlined,
-                                size: 64,
-                                color: theme.colorScheme.onSurface
-                                    .withValues(alpha: 0.3)),
-                            const SizedBox(height: 16),
-                            Text(
-                              'No blog posts yet. Check back soon!',
-                              style: theme.textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-                  return Column(
-                    children: posts
-                        .map((post) => Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: _BlogPostCard(post: post),
-                            ))
-                        .toList(),
-                  );
-                },
-              ),
+              _PostsList(postsFuture: _postsFuture),
             ],
           ),
         ),
@@ -95,71 +40,98 @@ class _BlogPageState extends State<BlogPage> {
   }
 }
 
-class _BlogPostCard extends StatelessWidget {
-  final BlogPost post;
-
-  const _BlogPostCard({required this.post});
-
+class _PageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dateStr =
-        '${post.date.year}-${post.date.month.toString().padLeft(2, '0')}-${post.date.day.toString().padLeft(2, '0')}';
-
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => context.go('/blog/${post.slug}'),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.calendar_today,
-                      size: 14,
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5)),
-                  const SizedBox(width: 6),
-                  Text(
-                    dateStr,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                post.title,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                post.excerpt,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Icon(Icons.arrow_forward,
-                      size: 16, color: theme.colorScheme.primary),
-                  const SizedBox(width: 4),
-                  Text(
-                    'Read More',
-                    style: TextStyle(
-                      color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.blog,
+          style: theme.textTheme.headlineLarge?.copyWith(
+            fontWeight: FontWeight.bold,
           ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          context.l10n.blogSubtitle,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PostsList extends StatelessWidget {
+  final Future<List<BlogPost>> postsFuture;
+
+  const _PostsList({required this.postsFuture});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<BlogPost>>(
+      future: postsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              context.l10n.errorLoadingPosts(snapshot.error.toString()),
+            ),
+          );
+        }
+        final posts = snapshot.data!;
+        return posts.isEmpty
+            ? _EmptyState()
+            : _PostsColumn(posts: posts);
+      },
+    );
+  }
+}
+
+class _PostsColumn extends StatelessWidget {
+  final List<BlogPost> posts;
+
+  const _PostsColumn({required this.posts});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: posts
+          .map((post) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: BlogPostCard(post: post),
+              ))
+          .toList(),
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(48),
+        child: Column(
+          children: [
+            Icon(
+              Icons.article_outlined,
+              size: 64,
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.l10n.noBlogPosts,
+              style: theme.textTheme.bodyLarge,
+            ),
+          ],
         ),
       ),
     );

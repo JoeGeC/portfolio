@@ -37,7 +37,9 @@ GoRouter buildRouter({
             GoRoute(
               path: AppRoutes.blogPostSlug,
               pageBuilder: (context, state) => NoTransitionPage(
-                child: BlogPostPage(slug: state.pathParameters['slug']!),
+                child: BlogPostPage(
+                  slug: state.pathParameters[AppRoutes.slugParam]!,
+                ),
               ),
             ),
           ],

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../app_constants.dart';
 import '../blog/blog_loader.dart';
 import '../blog/blog_post.dart';
+import '../l10n/l10n.dart';
+import '../utils/url_launcher_utils.dart';
+import '../widgets/post_date_row.dart';
+import '../widgets/post_error_view.dart';
 
 class BlogPostPage extends StatefulWidget {
   final String slug;
@@ -26,14 +30,12 @@ class _BlogPostPageState extends State<BlogPostPage> {
   }
 
   Future<void> _loadPost() async {
+    final l10n = context.l10n;
     try {
       final posts = await BlogLoader.loadIndex();
       final post = posts.where((p) => p.slug == widget.slug).firstOrNull;
       if (post == null) {
-        setState(() {
-          _error = 'Post not found';
-          _loading = false;
-        });
+        _setError(l10n.postNotFound);
         return;
       }
       final content = await BlogLoader.loadContent(post);
@@ -43,72 +45,49 @@ class _BlogPostPageState extends State<BlogPostPage> {
         _loading = false;
       });
     } catch (e) {
-      setState(() {
-        _error = 'Failed to load post: $e';
-        _loading = false;
-      });
+      _setError(l10n.failedToLoadPost(e.toString()));
     }
   }
 
+  void _setError(String message) =>
+      setState(() { _error = message; _loading = false; });
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    if (_loading) return const Center(child: CircularProgressIndicator());
+    if (_error != null) return PostErrorView(message: _error!);
 
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    return _PostContent(post: _post!, markdown: _markdown!);
+  }
+}
 
-    if (_error != null) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.error_outline, size: 48, color: theme.colorScheme.error),
-            const SizedBox(height: 16),
-            Text(_error!, style: TextStyle(color: theme.colorScheme.error)),
-          ],
-        ),
-      );
-    }
+class _PostContent extends StatelessWidget {
+  final BlogPost post;
+  final String markdown;
 
-    final dateStr =
-        '${_post!.date.year}-${_post!.date.month.toString().padLeft(2, '0')}-${_post!.date.day.toString().padLeft(2, '0')}';
+  const _PostContent({required this.post, required this.markdown});
 
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppLayout.pagePaddingH,
+        vertical: AppLayout.pagePaddingV,
+      ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
+          constraints:
+              const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Icon(Icons.calendar_today,
-                      size: 14,
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5)),
-                  const SizedBox(width: 6),
-                  Text(
-                    dateStr,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                    ),
-                  ),
-                ],
-              ),
+              PostDateRow(formattedDate: post.formattedDate),
               const SizedBox(height: 24),
               MarkdownBody(
-                data: _markdown!,
+                data: markdown,
                 selectable: true,
-                onTapLink: (text, href, title) async {
-                  if (href != null) {
-                    final uri = Uri.parse(href);
-                    if (await canLaunchUrl(uri)) {
-                      await launchUrl(uri,
-                          mode: LaunchMode.externalApplication);
-                    }
-                  }
-                },
+                onTapLink: (linkText, href, linkTitle) =>
+                    href != null ? launchExternalUrl(href) : null,
               ),
             ],
           ),

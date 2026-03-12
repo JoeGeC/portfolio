@@ -1,0 +1,79 @@
+{
+  "@@locale": "en",
+
+  "ownerName": "Joe Barker",
+  "@ownerName": { "description": "The portfolio owner's full name" },
+
+  "portfolio": "Portfolio",
+  "@portfolio": { "description": "Generic portfolio label used in navigation drawer header" },
+
+  "lightMode": "Light mode",
+  "@lightMode": { "description": "Tooltip for switching to light theme" },
+
+  "darkMode": "Dark mode",
+  "@darkMode": { "description": "Tooltip for switching to dark theme" },
+
+  "jobTitle": "Native Android & Flutter Developer",
+  "@jobTitle": { "description": "Owner job title shown on home page" },
+
+  "github": "GitHub",
+  "@github": { "description": "GitHub link chip label" },
+
+  "linkedIn": "LinkedIn",
+  "@linkedIn": { "description": "LinkedIn link chip label" },
+
+  "contactMe": "Contact Me",
+  "@contactMe": { "description": "Contact email link chip label" },
+
+  "downloadCv": "Download CV",
+  "@downloadCv": { "description": "CV download chip label" },
+
+  "featuredProjects": "Featured Projects",
+  "@featuredProjects": { "description": "Heading for the featured projects section on the home page" },
+
+  "viewAll": "View All →",
+  "@viewAll": { "description": "Button to navigate to the full projects list" },
+
+  "projects": "Projects",
+  "@projects": { "description": "Projects page title and nav item label" },
+
+  "projectsSubtitle": "A showcase of my open source work. Tap a project to see the full README.",
+  "@projectsSubtitle": { "description": "Subtitle shown at the top of the projects page" },
+
+  "viewOnGithub": "View on GitHub",
+  "@viewOnGithub": { "description": "Link label to open a project on GitHub" },
+
+  "blog": "Blog",
+  "@blog": { "description": "Blog page title and nav item label" },
+
+  "blogSubtitle": "Thoughts on mobile development, architecture, and engineering.",
+  "@blogSubtitle": { "description": "Subtitle shown at the top of the blog page" },
+
+  "noBlogPosts": "No blog posts yet. Check back soon!",
+  "@noBlogPosts": { "description": "Empty state message when there are no blog posts" },
+
+  "readMore": "Read More",
+  "@readMore": { "description": "Link label on blog post cards to open the full post" },
+
+  "home": "Home",
+  "@home": { "description": "Home nav item label" },
+
+  "postNotFound": "Post not found",
+  "@postNotFound": { "description": "Error message when a blog post slug does not match any post" },
+
+  "errorLoadingPosts": "Error loading posts: {error}",
+  "@errorLoadingPosts": {
+    "description": "Error message shown when blog index fails to load",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "failedToLoadPost": "Failed to load post: {error}",
+  "@failedToLoadPost": {
+    "description": "Error message shown when a blog post fails to load",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  }
+}

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app_constants.dart';
 import 'app_router.dart';
+import 'l10n/l10n.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -27,21 +29,18 @@ class _PortfolioAppState extends State<PortfolioApp> {
   Future<void> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final saved = prefs.getString(PrefsKeys.themeMode);
-    if (saved != null) {
-      setState(() {
-        _themeMode = saved == PrefsKeys.themeDark
-            ? ThemeMode.dark
-            : ThemeMode.light;
-      });
-    }
+    if (saved == null) return;
+    setState(() {
+      _themeMode =
+          saved == PrefsKeys.themeDark ? ThemeMode.dark : ThemeMode.light;
+    });
   }
 
   Future<void> _toggleTheme() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _themeMode = _themeMode == ThemeMode.dark
-          ? ThemeMode.light
-          : ThemeMode.dark;
+      _themeMode =
+          _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
     });
     await prefs.setString(
       PrefsKeys.themeMode,
@@ -56,11 +55,18 @@ class _PortfolioAppState extends State<PortfolioApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-    title: AppStrings.appTitle,
-    debugShowCheckedModeBanner: false,
-    theme: AppTheme.light(),
-    darkTheme: AppTheme.dark(),
-    themeMode: _themeMode,
-    routerConfig: _router,
-  );
+        title: AppStrings.appTitle,
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        themeMode: _themeMode,
+        routerConfig: _router,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
 }

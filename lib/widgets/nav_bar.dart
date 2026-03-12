@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../app_constants.dart';
-import '../models/nav_item.dart';
+import '../l10n/l10n.dart';
+import '../models/nav_destinations.dart';
+import 'nav_link.dart';
 
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onToggleTheme;
@@ -18,72 +20,70 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.sizeOf(context).width > 600;
+    final isWide = MediaQuery.sizeOf(context).width > AppLayout.breakpointWide;
     final currentPath = GoRouterState.of(context).uri.toString();
 
     return AppBar(
-      title: GestureDetector(
-        onTap: () => context.go(AppRoutes.home),
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: Text(
-            AppStrings.ownerName,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        ),
-      ),
+      title: _AppBarTitle(),
       actions: [
         if (isWide) ...[
-          ...NavItem.destinations.map(
-            (item) => _NavLink(item: item, currentPath: currentPath),
+          ...navDestinations(context.l10n).map(
+            (item) => NavLink(item: item, currentPath: currentPath),
           ),
           const SizedBox(width: 8),
         ],
-        IconButton(
-          icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-          tooltip: isDarkMode ? AppStrings.lightMode : AppStrings.darkMode,
-          onPressed: onToggleTheme,
+        _ThemeToggleButton(
+          isDarkMode: isDarkMode,
+          onToggle: onToggleTheme,
         ),
         const SizedBox(width: 8),
       ],
-      leading: isWide
-          ? null
-          : Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-            ),
+      leading: isWide ? null : _DrawerMenuButton(),
     );
   }
 }
 
-class _NavLink extends StatelessWidget {
-  final NavItem item;
-  final String currentPath;
-
-  const _NavLink({required this.item, required this.currentPath});
-
-  bool get _isActive {
-    if (item.path == AppRoutes.home) return currentPath == AppRoutes.home;
-    return currentPath.startsWith(item.path);
+class _AppBarTitle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.go(AppRoutes.home),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Text(
+          context.l10n.ownerName,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+      ),
+    );
   }
+}
+
+class _ThemeToggleButton extends StatelessWidget {
+  final bool isDarkMode;
+  final VoidCallback onToggle;
+
+  const _ThemeToggleButton({required this.isDarkMode, required this.onToggle});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return TextButton(
-      onPressed: () => context.go(item.path),
-      child: Text(
-        item.label,
-        style: TextStyle(
-          color: _isActive
-              ? theme.colorScheme.primary
-              : theme.colorScheme.onSurface,
-          fontWeight: _isActive ? FontWeight.bold : FontWeight.normal,
-        ),
+    return IconButton(
+      icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+      tooltip: isDarkMode ? context.l10n.lightMode : context.l10n.darkMode,
+      onPressed: onToggle,
+    );
+  }
+}
+
+class _DrawerMenuButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (ctx) => IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: () => Scaffold.of(ctx).openDrawer(),
       ),
     );
   }

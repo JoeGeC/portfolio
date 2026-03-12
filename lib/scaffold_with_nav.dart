@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_constants.dart';
 import 'widgets/nav_bar.dart';
 import 'widgets/nav_drawer.dart';
 
@@ -16,7 +17,8 @@ class ScaffoldWithNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.sizeOf(context).width > 600;
+    final isWide =
+        MediaQuery.sizeOf(context).width > AppLayout.breakpointWide;
 
     return Scaffold(
       appBar: NavBar(

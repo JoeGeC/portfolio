@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../app_constants.dart';
-import '../models/nav_item.dart';
+import '../l10n/l10n.dart';
+import '../models/nav_destinations.dart';
+import 'nav_drawer_item.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({super.key});
@@ -9,37 +10,14 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentPath = GoRouterState.of(context).uri.toString();
-    final theme = Theme.of(context);
 
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: theme.colorScheme.primaryContainer),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  AppStrings.ownerName,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  AppStrings.portfolio,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ...NavItem.destinations.map(
-            (item) => _DrawerItem(item: item, currentPath: currentPath),
+          _DrawerHeader(),
+          ...navDestinations(context.l10n).map(
+            (item) => NavDrawerItem(item: item, currentPath: currentPath),
           ),
         ],
       ),
@@ -47,27 +25,33 @@ class NavDrawer extends StatelessWidget {
   }
 }
 
-class _DrawerItem extends StatelessWidget {
-  final NavItem item;
-  final String currentPath;
-
-  const _DrawerItem({required this.item, required this.currentPath});
-
-  bool get _isActive {
-    if (item.path == AppRoutes.home) return currentPath == AppRoutes.home;
-    return currentPath.startsWith(item.path);
-  }
-
+class _DrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(item.icon),
-      title: Text(item.label),
-      selected: _isActive,
-      onTap: () {
-        Navigator.pop(context);
-        context.go(item.path);
-      },
+    final theme = Theme.of(context);
+    return DrawerHeader(
+      decoration: BoxDecoration(color: theme.colorScheme.primaryContainer),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            context.l10n.ownerName,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onPrimaryContainer,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            context.l10n.portfolio,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color:
+                  theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
