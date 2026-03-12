@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'app_constants.dart';
+import 'app_router.dart';
 import 'theme/app_theme.dart';
-import 'scaffold_with_nav.dart';
-import 'pages/home_page.dart';
-import 'pages/projects_page.dart';
-import 'pages/blog_page.dart';
-import 'pages/blog_post_page.dart';
 
 void main() {
   runApp(const PortfolioApp());
@@ -30,10 +26,12 @@ class _PortfolioAppState extends State<PortfolioApp> {
 
   Future<void> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getString('themeMode');
+    final saved = prefs.getString(PrefsKeys.themeMode);
     if (saved != null) {
       setState(() {
-        _themeMode = saved == 'dark' ? ThemeMode.dark : ThemeMode.light;
+        _themeMode = saved == PrefsKeys.themeDark
+            ? ThemeMode.dark
+            : ThemeMode.light;
       });
     }
   }
@@ -41,69 +39,28 @@ class _PortfolioAppState extends State<PortfolioApp> {
   Future<void> _toggleTheme() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      if (_themeMode == ThemeMode.dark) {
-        _themeMode = ThemeMode.light;
-      } else {
-        _themeMode = ThemeMode.dark;
-      }
+      _themeMode = _themeMode == ThemeMode.dark
+          ? ThemeMode.light
+          : ThemeMode.dark;
     });
     await prefs.setString(
-        'themeMode', _themeMode == ThemeMode.dark ? 'dark' : 'light');
+      PrefsKeys.themeMode,
+      _themeMode == ThemeMode.dark ? PrefsKeys.themeDark : PrefsKeys.themeLight,
+    );
   }
 
-  late final _router = GoRouter(
-    routes: [
-      ShellRoute(
-        builder: (context, state, child) {
-          return ScaffoldWithNav(
-            onToggleTheme: _toggleTheme,
-            isDarkMode: _themeMode == ThemeMode.dark,
-            child: child,
-          );
-        },
-        routes: [
-          GoRoute(
-            path: '/',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: HomePage(),
-            ),
-          ),
-          GoRoute(
-            path: '/projects',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: ProjectsPage(),
-            ),
-          ),
-          GoRoute(
-            path: '/blog',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BlogPage(),
-            ),
-            routes: [
-              GoRoute(
-                path: ':slug',
-                pageBuilder: (context, state) => NoTransitionPage(
-                  child: BlogPostPage(
-                    slug: state.pathParameters['slug']!,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ],
+  late final _router = buildRouter(
+    onToggleTheme: _toggleTheme,
+    isDarkMode: () => _themeMode == ThemeMode.dark,
   );
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Joe Barker - Portfolio',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: _themeMode,
-      routerConfig: _router,
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp.router(
+    title: AppStrings.appTitle,
+    debugShowCheckedModeBanner: false,
+    theme: AppTheme.light(),
+    darkTheme: AppTheme.dark(),
+    themeMode: _themeMode,
+    routerConfig: _router,
+  );
 }
