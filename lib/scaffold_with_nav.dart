@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/nav_bar.dart';
+import 'widgets/nav_drawer.dart';
 
 class ScaffoldWithNav extends StatelessWidget {
   final Widget child;

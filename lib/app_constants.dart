@@ -7,6 +7,10 @@ abstract final class AppRoutes {
 
 abstract final class AppStrings {
   static const appTitle = 'Joe Barker - Portfolio';
+  static const ownerName = 'Joe Barker';
+  static const portfolio = 'Portfolio';
+  static const lightMode = 'Light mode';
+  static const darkMode = 'Dark mode';
 }
 
 abstract final class PrefsKeys {
