@@ -18,12 +18,10 @@ class BlogPost {
   String get formattedDate =>
       '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 
-  factory BlogPost.fromJson(Map<String, dynamic> json) {
-    return BlogPost(
-      title: json['title'] as String,
-      slug: json['slug'] as String,
-      date: DateTime.parse(json['date'] as String),
-      excerpt: json['excerpt'] as String,
-    );
-  }
+  factory BlogPost.fromJson(Map<String, dynamic> json) => BlogPost(
+        title: json['title'] as String,
+        slug: json['slug'] as String,
+        date: DateTime.parse(json['date'] as String),
+        excerpt: json['excerpt'] as String,
+      );
 }

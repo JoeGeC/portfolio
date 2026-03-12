@@ -11,30 +11,29 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppLayout.pagePaddingH,
-        vertical: AppLayout.pagePaddingV,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-          child: Column(
-            children: [
-              _ProfileSection(),
-              const SizedBox(height: 24),
-              _LinkChipsRow(),
-              const SizedBox(height: 48),
-              _FeaturedProjectsHeader(),
-              const SizedBox(height: 16),
-              ..._projectCards,
-            ],
+  Widget build(BuildContext context) => SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppLayout.pagePaddingH,
+          vertical: AppLayout.pagePaddingV,
+        ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints:
+                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
+            child: Column(
+              children: [
+                _ProfileSection(),
+                const SizedBox(height: 24),
+                _LinkChipsRow(),
+                const SizedBox(height: 48),
+                _FeaturedProjectsHeader(),
+                const SizedBox(height: 16),
+                ..._projectCards,
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   List<Widget> get _projectCards => Project.all
       .map((p) => Padding(
@@ -111,21 +110,19 @@ class _LinkChipsRow extends StatelessWidget {
 
 class _FeaturedProjectsHeader extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          context.l10n.featuredProjects,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const Spacer(),
-        TextButton(
-          onPressed: () => context.go(AppRoutes.projects),
-          child: Text(context.l10n.viewAll),
-        ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Row(
+        children: [
+          Text(
+            context.l10n.featuredProjects,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const Spacer(),
+          TextButton(
+            onPressed: () => context.go(AppRoutes.projects),
+            child: Text(context.l10n.viewAll),
+          ),
+        ],
+      );
 }

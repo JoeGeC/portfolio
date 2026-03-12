@@ -16,28 +16,26 @@ class _BlogPageState extends State<BlogPage> {
   late final Future<List<BlogPost>> _postsFuture = BlogLoader.loadIndex();
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppLayout.pagePaddingH,
-        vertical: AppLayout.pagePaddingV,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _PageHeader(),
-              const SizedBox(height: 24),
-              _PostsList(postsFuture: _postsFuture),
-            ],
+  Widget build(BuildContext context) => SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppLayout.pagePaddingH,
+          vertical: AppLayout.pagePaddingV,
+        ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints:
+                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _PageHeader(),
+                const SizedBox(height: 24),
+                _PostsList(postsFuture: _postsFuture),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _PageHeader extends StatelessWidget {
@@ -100,16 +98,14 @@ class _PostsColumn extends StatelessWidget {
   const _PostsColumn({required this.posts});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: posts
-          .map((post) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: BlogPostCard(post: post),
-              ))
-          .toList(),
-    );
-  }
+  Widget build(BuildContext context) => Column(
+        children: posts
+            .map((post) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: BlogPostCard(post: post),
+                ))
+            .toList(),
+      );
 }
 
 class _EmptyState extends StatelessWidget {

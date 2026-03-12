@@ -32,16 +32,14 @@ class _WideLayout extends StatelessWidget {
   const _WideLayout({required this.project});
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ProjectImage(assetPath: project.imageAsset, width: 150, height: 120),
-        const SizedBox(width: 16),
-        Expanded(child: ProjectInfo(project: project)),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProjectImage(assetPath: project.imageAsset, width: 150, height: 120),
+          const SizedBox(width: 16),
+          Expanded(child: ProjectInfo(project: project)),
+        ],
+      );
 }
 
 class _NarrowLayout extends StatelessWidget {
@@ -50,14 +48,12 @@ class _NarrowLayout extends StatelessWidget {
   const _NarrowLayout({required this.project});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(child: ProjectImage(assetPath: project.imageAsset, height: 150)),
-        const SizedBox(height: 12),
-        ProjectInfo(project: project),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(child: ProjectImage(assetPath: project.imageAsset, height: 150)),
+          const SizedBox(height: 12),
+          ProjectInfo(project: project),
+        ],
+      );
 }

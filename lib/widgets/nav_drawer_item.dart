@@ -13,10 +13,9 @@ class NavDrawerItem extends StatelessWidget {
     required this.currentPath,
   });
 
-  bool get _isActive {
-    if (item.path == AppRoutes.home) return currentPath == AppRoutes.home;
-    return currentPath.startsWith(item.path);
-  }
+  bool get _isActive => item.path == AppRoutes.home
+      ? currentPath == AppRoutes.home
+      : currentPath.startsWith(item.path);
 
   @override
   Widget build(BuildContext context) {

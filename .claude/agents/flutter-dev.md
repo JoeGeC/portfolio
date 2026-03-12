@@ -207,6 +207,17 @@ Widget build(BuildContext context) => Text(context.l10n.title);
 
 ---
 
+### 8. Boy Scout Rule
+Always leave the code cleaner than you found it. Whenever you touch a file — even for an unrelated change — fix any violations of these rules that you spot. Small, continuous improvements compound over time.
+
+- If you see a hardcoded string, move it to l10n or constants.
+- If you see a long method, extract it.
+- If you see dead code, delete it.
+- If you see a block body that could be `=>`, convert it.
+- Do not let pre-existing violations block your primary task, but do not ignore them either.
+
+---
+
 ## Summary Checklist
 
 Before considering any task complete, verify:
@@ -219,3 +230,4 @@ Before considering any task complete, verify:
 - [ ] Widgets are decomposed into small, reusable components
 - [ ] SOLID principles have been applied
 - [ ] Single-expression functions/getters use `=>` instead of `return`
+- [ ] Any pre-existing violations spotted while working have been cleaned up

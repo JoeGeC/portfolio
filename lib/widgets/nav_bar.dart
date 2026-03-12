@@ -45,20 +45,18 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
 
 class _AppBarTitle extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => context.go(AppRoutes.home),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Text(
-          context.l10n.ownerName,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => context.go(AppRoutes.home),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Text(
+            context.l10n.ownerName,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _ThemeToggleButton extends StatelessWidget {
@@ -68,23 +66,19 @@ class _ThemeToggleButton extends StatelessWidget {
   const _ThemeToggleButton({required this.isDarkMode, required this.onToggle});
 
   @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-      tooltip: isDarkMode ? context.l10n.lightMode : context.l10n.darkMode,
-      onPressed: onToggle,
-    );
-  }
+  Widget build(BuildContext context) => IconButton(
+        icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+        tooltip: isDarkMode ? context.l10n.lightMode : context.l10n.darkMode,
+        onPressed: onToggle,
+      );
 }
 
 class _DrawerMenuButton extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Builder(
-      builder: (ctx) => IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () => Scaffold.of(ctx).openDrawer(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Builder(
+        builder: (ctx) => IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => Scaffold.of(ctx).openDrawer(),
+        ),
+      );
 }

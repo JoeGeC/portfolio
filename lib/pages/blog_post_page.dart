@@ -68,31 +68,29 @@ class _PostContent extends StatelessWidget {
   const _PostContent({required this.post, required this.markdown});
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppLayout.pagePaddingH,
-        vertical: AppLayout.pagePaddingV,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PostDateRow(formattedDate: post.formattedDate),
-              const SizedBox(height: 24),
-              MarkdownBody(
-                data: markdown,
-                selectable: true,
-                onTapLink: (linkText, href, linkTitle) =>
-                    href != null ? launchExternalUrl(href) : null,
-              ),
-            ],
+  Widget build(BuildContext context) => SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppLayout.pagePaddingH,
+          vertical: AppLayout.pagePaddingV,
+        ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints:
+                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PostDateRow(formattedDate: post.formattedDate),
+                const SizedBox(height: 24),
+                MarkdownBody(
+                  data: markdown,
+                  selectable: true,
+                  onTapLink: (linkText, href, linkTitle) =>
+                      href != null ? launchExternalUrl(href) : null,
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

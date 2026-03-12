@@ -8,28 +8,26 @@ class ProjectsPage extends StatelessWidget {
   const ProjectsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppLayout.pagePaddingH,
-        vertical: AppLayout.pagePaddingV,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _PageHeader(),
-              const SizedBox(height: 24),
-              ..._projectItems(context),
-            ],
+  Widget build(BuildContext context) => SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppLayout.pagePaddingH,
+          vertical: AppLayout.pagePaddingV,
+        ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints:
+                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _PageHeader(),
+                const SizedBox(height: 24),
+                ..._projectItems(context),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   List<Widget> _projectItems(BuildContext context) => Project.all
       .map((p) => Padding(

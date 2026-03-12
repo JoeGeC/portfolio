@@ -25,7 +25,8 @@ class ProjectImage extends StatelessWidget {
         errorBuilder: (context, error, stackTrace) => _Fallback(
           width: width,
           height: height,
-          theme: theme,
+          color: theme.colorScheme.surfaceContainerHighest,
+          iconColor: theme.colorScheme.primary,
         ),
       ),
     );
@@ -35,20 +36,24 @@ class ProjectImage extends StatelessWidget {
 class _Fallback extends StatelessWidget {
   final double? width;
   final double height;
-  final ThemeData theme;
+  final Color color;
+  final Color iconColor;
 
-  const _Fallback({this.width, required this.height, required this.theme});
+  const _Fallback({
+    this.width,
+    required this.height,
+    required this.color,
+    required this.iconColor,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Icon(Icons.code, size: 48, color: theme.colorScheme.primary),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(Icons.code, size: 48, color: iconColor),
+      );
 }
