@@ -53,7 +53,6 @@ class _ProfileSection extends StatelessWidget {
           radius: 75,
           backgroundColor: Colors.grey,
           backgroundImage: AssetImage(AppAssets.profilePicture),
-          child: Icon(Icons.person, size: 60, color: Colors.white),
         ),
         const SizedBox(height: 16),
         Text(
