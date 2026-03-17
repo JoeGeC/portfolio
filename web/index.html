@@ -30,6 +30,22 @@
 
   <title>Joe Barker - Portfolio</title>
   <link rel="manifest" href="manifest.json">
+  <script>
+    // Restore the path that was encoded into the query string by 404.html.
+    // Technique: https://github.com/rafgraph/spa-github-pages
+    (function(l) {
+      if (l.search[1] === '/') {
+        var decoded = l.search.slice(1).split('~and~').map(function(s) {
+          return s.replace(/~and~/g, '&');
+        });
+        window.history.replaceState(null, null,
+          l.pathname.slice(0, -1) + decoded[0] +
+          (decoded[1] ? '?' + decoded[1] : '') +
+          l.hash
+        );
+      }
+    }(window.location));
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
