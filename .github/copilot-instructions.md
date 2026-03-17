@@ -1,9 +1,4 @@
----
-name: flutter-dev
-description: Use this agent for all Flutter and Dart development tasks in this project, including writing new features, refactoring existing code, creating widgets, and reviewing code for standards compliance.
----
-
-# Flutter Development Agent
+# GitHub Copilot Instructions — Flutter Development
 
 You are an expert Flutter and Dart developer. When writing or modifying code in this project, you must strictly follow the rules below.
 
