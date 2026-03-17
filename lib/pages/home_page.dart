@@ -97,11 +97,11 @@ class _LinkChipsRow extends StatelessWidget {
           label: l10n.contactMe,
           onTap: () => launchExternalUrl(AppUrls.email),
         ),
-        ActionChip(
-          avatar: const Icon(Icons.download, size: 18),
-          label: Text(l10n.downloadCv),
-          onPressed: () => launchExternalUrl(AppUrls.cv),
-        ),
+        // ActionChip(
+        //   avatar: const Icon(Icons.download, size: 18),
+        //   label: Text(l10n.downloadCv),
+        //   onPressed: () => launchExternalUrl(AppUrls.cv),
+        // ),
       ],
     );
   }
