@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'app_constants.dart';
 import 'widgets/nav_bar.dart';
 import 'widgets/nav_drawer.dart';
+import 'widgets/textured_background.dart';
 
 class ScaffoldWithNav extends StatelessWidget {
   final Widget child;
@@ -26,7 +27,7 @@ class ScaffoldWithNav extends StatelessWidget {
         isDarkMode: isDarkMode,
       ),
       drawer: isWide ? null : const NavDrawer(),
-      body: child,
+      body: TexturedBackground(child: child),
     );
   }
 }
