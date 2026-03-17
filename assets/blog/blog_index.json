@@ -1,15 +1,9 @@
 [
   {
-    "title": "Clean Architecture in Flutter: A Practical Guide",
-    "slug": "clean-architecture-flutter",
-    "date": "2026-03-10",
-    "excerpt": "A practical walkthrough of how I structure Flutter projects using clean architecture — separating presentation, domain, and data layers for testability and maintainability."
-  },
-  {
-    "title": "Welcome to My Blog",
-    "slug": "welcome",
-    "date": "2026-03-10",
-    "excerpt": "Welcome to my portfolio blog! I'll be sharing my thoughts on mobile development, Flutter, Android, and software engineering.",
+    "title": "Why I'm Starting This Blog",
+    "slug": "why-im-starting-this-blog",
+    "date": "2026-03-17",
+    "excerpt": "After tutoring for years and coming to a stop, I wanted to find a different outlet to share my experience. Here's what this blog is for and who it's for.",
     "sticky": true
   }
 ]
