@@ -226,6 +226,12 @@ abstract class AppLocalizations {
   /// **'Latest Posts'**
   String get latestPosts;
 
+  /// Badge label shown on sticky/pinned blog post cards
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get pinned;
+
   /// Error message shown when a blog post fails to load
   ///
   /// In en, this message translates to:

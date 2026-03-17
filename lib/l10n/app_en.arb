@@ -72,6 +72,9 @@
   "latestPosts": "Latest Posts",
   "@latestPosts": { "description": "Heading for the latest blog posts section on the home page" },
 
+  "pinned": "Pinned",
+  "@pinned": { "description": "Badge label shown on sticky/pinned blog post cards" },
+
   "failedToLoadPost": "Failed to load post: {error}",
   "@failedToLoadPost": {
     "description": "Error message shown when a blog post fails to load",

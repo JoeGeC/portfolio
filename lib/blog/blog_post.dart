@@ -5,12 +5,14 @@ class BlogPost {
   final String slug;
   final DateTime date;
   final String excerpt;
+  final bool sticky;
 
   const BlogPost({
     required this.title,
     required this.slug,
     required this.date,
     required this.excerpt,
+    this.sticky = false,
   });
 
   String get assetPath => '${AppAssets.blogAssetPrefix}$slug.md';
@@ -23,5 +25,6 @@ class BlogPost {
         slug: json['slug'] as String,
         date: DateTime.parse(json['date'] as String),
         excerpt: json['excerpt'] as String,
+        sticky: json['sticky'] as bool? ?? false,
       );
 }

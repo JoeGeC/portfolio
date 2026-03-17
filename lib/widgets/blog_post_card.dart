@@ -22,7 +22,7 @@ class BlogPostCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PostDateRow(formattedDate: post.formattedDate),
+              _CardHeader(post: post),
               const SizedBox(height: 8),
               Text(
                 post.title,
@@ -42,6 +42,51 @@ class BlogPostCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _CardHeader extends StatelessWidget {
+  final BlogPost post;
+
+  const _CardHeader({required this.post});
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          PostDateRow(formattedDate: post.formattedDate),
+          if (post.sticky) ...[
+            const Spacer(),
+            _StickyBadge(),
+          ],
+        ],
+      );
+}
+
+class _StickyBadge extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.push_pin, size: 12, color: theme.colorScheme.onPrimaryContainer),
+          const SizedBox(width: 4),
+          Text(
+            context.l10n.pinned,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onPrimaryContainer,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -10,7 +10,10 @@ class BlogLoader {
     final posts = jsonList
         .map((e) => BlogPost.fromJson(e as Map<String, dynamic>))
         .toList();
-    posts.sort((a, b) => b.date.compareTo(a.date));
+    posts.sort((a, b) {
+      if (a.sticky != b.sticky) return a.sticky ? -1 : 1;
+      return b.date.compareTo(a.date);
+    });
     return posts;
   }
 

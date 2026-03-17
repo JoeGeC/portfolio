@@ -79,6 +79,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get latestPosts => 'Latest Posts';
 
   @override
+  String get pinned => 'Pinned';
+
+  @override
   String failedToLoadPost(String error) {
     return 'Failed to load post: $error';
   }
