@@ -4,6 +4,7 @@ import '../blog/blog_loader.dart';
 import '../blog/blog_post.dart';
 import '../l10n/l10n.dart';
 import '../widgets/blog_post_card.dart';
+import '../widgets/content_panel.dart';
 
 class BlogPage extends StatefulWidget {
   const BlogPage({super.key});
@@ -21,18 +22,14 @@ class _BlogPageState extends State<BlogPage> {
           horizontal: AppLayout.pagePaddingH,
           vertical: AppLayout.pagePaddingV,
         ),
-        child: Center(
-          child: ConstrainedBox(
-            constraints:
-                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _PageHeader(),
-                const SizedBox(height: 24),
-                _PostsList(postsFuture: _postsFuture),
-              ],
-            ),
+        child: ContentPanel(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _PageHeader(),
+              const SizedBox(height: 24),
+              _PostsList(postsFuture: _postsFuture),
+            ],
           ),
         ),
       );

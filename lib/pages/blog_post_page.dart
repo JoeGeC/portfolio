@@ -5,6 +5,7 @@ import '../blog/blog_loader.dart';
 import '../blog/blog_post.dart';
 import '../l10n/l10n.dart';
 import '../utils/url_launcher_utils.dart';
+import '../widgets/content_panel.dart';
 import '../widgets/post_date_row.dart';
 import '../widgets/post_error_view.dart';
 
@@ -71,23 +72,19 @@ class _PostContent extends StatelessWidget {
           horizontal: AppLayout.pagePaddingH,
           vertical: AppLayout.pagePaddingV,
         ),
-        child: Center(
-          child: ConstrainedBox(
-            constraints:
-                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PostDateRow(formattedDate: post.formattedDate),
-                const SizedBox(height: 24),
-                MarkdownBody(
-                  data: markdown,
-                  selectable: true,
-                  onTapLink: (linkText, href, linkTitle) =>
-                      href != null ? launchExternalUrl(href) : null,
-                ),
-              ],
-            ),
+        child: ContentPanel(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PostDateRow(formattedDate: post.formattedDate),
+              const SizedBox(height: 24),
+              MarkdownBody(
+                data: markdown,
+                selectable: true,
+                onTapLink: (linkText, href, linkTitle) =>
+                    href != null ? launchExternalUrl(href) : null,
+              ),
+            ],
           ),
         ),
       );

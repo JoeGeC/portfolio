@@ -4,6 +4,7 @@ import '../app_constants.dart';
 import '../l10n/l10n.dart';
 import '../models/project.dart';
 import '../utils/url_launcher_utils.dart';
+import '../widgets/content_panel.dart';
 import '../widgets/link_chip.dart';
 import '../widgets/project_card.dart';
 
@@ -16,21 +17,17 @@ class HomePage extends StatelessWidget {
           horizontal: AppLayout.pagePaddingH,
           vertical: AppLayout.pagePaddingV,
         ),
-        child: Center(
-          child: ConstrainedBox(
-            constraints:
-                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-            child: Column(
-              children: [
-                _ProfileSection(),
-                const SizedBox(height: 24),
-                _LinkChipsRow(),
-                const SizedBox(height: 48),
-                _FeaturedProjectsHeader(),
-                const SizedBox(height: 16),
-                ..._projectCards,
-              ],
-            ),
+        child: ContentPanel(
+          child: Column(
+            children: [
+              _ProfileSection(),
+              const SizedBox(height: 24),
+              _LinkChipsRow(),
+              const SizedBox(height: 48),
+              _FeaturedProjectsHeader(),
+              const SizedBox(height: 16),
+              ..._projectCards,
+            ],
           ),
         ),
       );
@@ -97,11 +94,6 @@ class _LinkChipsRow extends StatelessWidget {
           label: l10n.contactMe,
           onTap: () => launchExternalUrl(AppUrls.email),
         ),
-        // ActionChip(
-        //   avatar: const Icon(Icons.download, size: 18),
-        //   label: Text(l10n.downloadCv),
-        //   onPressed: () => launchExternalUrl(AppUrls.cv),
-        // ),
       ],
     );
   }

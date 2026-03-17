@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_constants.dart';
 import '../l10n/l10n.dart';
 import '../models/project.dart';
+import '../widgets/content_panel.dart';
 import '../widgets/project_list_item.dart';
 
 class ProjectsPage extends StatelessWidget {
@@ -13,18 +14,14 @@ class ProjectsPage extends StatelessWidget {
           horizontal: AppLayout.pagePaddingH,
           vertical: AppLayout.pagePaddingV,
         ),
-        child: Center(
-          child: ConstrainedBox(
-            constraints:
-                const BoxConstraints(maxWidth: AppLayout.contentMaxWidth),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _PageHeader(),
-                const SizedBox(height: 24),
-                ..._projectItems(context),
-              ],
-            ),
+        child: ContentPanel(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _PageHeader(),
+              const SizedBox(height: 24),
+              ..._projectItems(context),
+            ],
           ),
         ),
       );
