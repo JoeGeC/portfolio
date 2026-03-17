@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../app_constants.dart';
+import '../blog/blog_loader.dart';
+import '../blog/blog_post.dart';
 import '../l10n/l10n.dart';
 import '../models/project.dart';
 import '../utils/url_launcher_utils.dart';
+import '../widgets/blog_post_card.dart';
 import '../widgets/content_panel.dart';
 import '../widgets/link_chip.dart';
 import '../widgets/project_card.dart';
@@ -27,6 +30,8 @@ class HomePage extends StatelessWidget {
               _FeaturedProjectsHeader(),
               const SizedBox(height: 16),
               ..._projectCards,
+              const SizedBox(height: 48),
+              _LatestPostsSection(),
             ],
           ),
         ),
@@ -115,5 +120,83 @@ class _FeaturedProjectsHeader extends StatelessWidget {
             child: Text(context.l10n.viewAll),
           ),
         ],
+      );
+}
+
+class _LatestPostsSection extends StatefulWidget {
+  @override
+  State<_LatestPostsSection> createState() => _LatestPostsSectionState();
+}
+
+class _LatestPostsSectionState extends State<_LatestPostsSection> {
+  late final Future<List<BlogPost>> _postsFuture = BlogLoader.loadIndex();
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _LatestPostsHeader(),
+          const SizedBox(height: 16),
+          _LatestPostsFeed(postsFuture: _postsFuture),
+        ],
+      );
+}
+
+class _LatestPostsHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Text(
+            context.l10n.latestPosts,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const Spacer(),
+          TextButton(
+            onPressed: () => context.go(AppRoutes.blog),
+            child: Text(context.l10n.viewAll),
+          ),
+        ],
+      );
+}
+
+class _LatestPostsFeed extends StatelessWidget {
+  final Future<List<BlogPost>> postsFuture;
+
+  const _LatestPostsFeed({required this.postsFuture});
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder<List<BlogPost>>(
+        future: postsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError || !snapshot.hasData) {
+            return const SizedBox.shrink();
+          }
+          return _LatestPostsCards(
+            posts: snapshot.data!.take(AppLayout.latestPostsCount).toList(),
+          );
+        },
+      );
+}
+
+class _LatestPostsCards extends StatelessWidget {
+  final List<BlogPost> posts;
+
+  const _LatestPostsCards({required this.posts});
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: posts
+            .map(
+              (post) => Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: BlogPostCard(post: post),
+              ),
+            )
+            .toList(),
       );
 }

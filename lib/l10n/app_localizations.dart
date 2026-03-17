@@ -220,6 +220,12 @@ abstract class AppLocalizations {
   /// **'Error loading posts: {error}'**
   String errorLoadingPosts(String error);
 
+  /// Heading for the latest blog posts section on the home page
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Posts'**
+  String get latestPosts;
+
   /// Error message shown when a blog post fails to load
   ///
   /// In en, this message translates to:

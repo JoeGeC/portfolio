@@ -40,4 +40,5 @@ abstract final class AppLayout {
   static const contentMaxWidth = 800.0;
   static const pagePaddingH = 24.0;
   static const pagePaddingV = 40.0;
+  static const latestPostsCount = 2;
 }

@@ -69,6 +69,9 @@
     }
   },
 
+  "latestPosts": "Latest Posts",
+  "@latestPosts": { "description": "Heading for the latest blog posts section on the home page" },
+
   "failedToLoadPost": "Failed to load post: {error}",
   "@failedToLoadPost": {
     "description": "Error message shown when a blog post fails to load",
