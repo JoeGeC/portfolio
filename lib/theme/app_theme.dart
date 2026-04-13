@@ -8,6 +8,7 @@ class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: _seedColor,
       brightness: Brightness.light,
+      surface: Colors.white,
     );
     return ThemeData(
       useMaterial3: true,
@@ -15,7 +16,7 @@ class AppTheme {
       scaffoldBackgroundColor: const Color(0xFFF4F4F4),
       textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
       cardTheme: CardThemeData(
-        color: Colors.white,
+        color: const Color(0xFFF4F4F4),
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
