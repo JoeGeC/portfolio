@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'app_constants.dart';
+import 'feature_flags.dart';
 import 'scaffold_with_nav.dart';
 import 'pages/home_page.dart';
 import 'pages/projects_page.dart';
@@ -29,21 +30,22 @@ GoRouter buildRouter({
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: ProjectsPage()),
         ),
-        GoRoute(
-          path: AppRoutes.blog,
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: BlogPage()),
-          routes: [
-            GoRoute(
-              path: AppRoutes.blogPostSlug,
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: BlogPostPage(
-                  slug: state.pathParameters[AppRoutes.slugParam]!,
+        if (FeatureFlags.blogEnabled)
+          GoRoute(
+            path: AppRoutes.blog,
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: BlogPage()),
+            routes: [
+              GoRoute(
+                path: AppRoutes.blogPostSlug,
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: BlogPostPage(
+                    slug: state.pathParameters[AppRoutes.slugParam]!,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
       ],
     ),
   ],

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../app_constants.dart';
 import '../blog/blog_loader.dart';
 import '../blog/blog_post.dart';
+import '../feature_flags.dart';
 import '../l10n/l10n.dart';
 import '../models/project.dart';
 import '../utils/url_launcher_utils.dart';
@@ -22,14 +23,16 @@ class HomePage extends StatelessWidget {
         ),
         child: ContentPanel(
           child: Column(
-            children: [
-              _ProfileSection(),
-              const SizedBox(height: 24),
-              _LinkChipsRow(),
-              const SizedBox(height: 48),
+          children: [
+            _ProfileSection(),
+            const SizedBox(height: 24),
+            _LinkChipsRow(),
+            const SizedBox(height: 48),
+            if (FeatureFlags.blogEnabled) ...[
               _LatestPostsSection(),
               const SizedBox(height: 48),
-              _FeaturedProjectsHeader(),
+            ],
+            _FeaturedProjectsHeader(),
               const SizedBox(height: 16),
               ..._projectCards,
             ],
